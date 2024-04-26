@@ -7,7 +7,6 @@ logging:
   level:
     root: INFO
     com.cardealership: DEBUG
-    org.springframework.data.mongodb.core.MongoTemplate: DEBUG
 
 ---
 #For test
@@ -15,23 +14,6 @@ spring:
   config:
     activate:
       on-profile: test
-
-  data:
-    mongodb:
-      username: user
-      password: pwd
-      host: localhost
-      port: 0
-      database: sales-db
-      authentication-database: admin
-      auto-index-creation: true
-
-#for flapdoodle
-de:
-  flapdoodle:
-    mongodb:
-      embedded:
-        version: 5.0.5
 
 app:
   customers-service:
@@ -43,6 +25,10 @@ app:
   inventory-service:
     host: localhost
     port: 7003
+
+  purchases-service:
+    host: localhost
+    port: 7004
 ---
 
 # for docker
@@ -51,16 +37,6 @@ spring:
   config:
     activate:
       on-profile: docker
-
-  data:
-    mongodb:
-      username: user
-      password: pwd
-      database: sales-db
-      host: mongodb
-      port: 27017
-      authentication-database: admin
-      auto-index-creation: true
 
 server.port: 8080
 
@@ -75,4 +51,7 @@ app:
     port: 8080
   inventory-service:
     host: inventory-service
+    port: 8080
+  purchases-service:
+    host: purchases-service
     port: 8080
