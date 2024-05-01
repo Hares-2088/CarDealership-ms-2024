@@ -25,7 +25,6 @@ app:
   inventory-service:
     host: localhost
     port: 7003
-
   purchases-service:
     host: localhost
     port: 7004

@@ -15,12 +15,7 @@ VALUES
 insert into customer_phonenumbers (customer_id, type, number)
 values
     ('cus01', 'HOME', '123-456-7890'),
-    ('cus01', 'MOBILE', '234-567-8901'),
     ('cus02', 'WORK', '345-678-9012'),
-    ('cus02', 'MOBILE', '456-789-0123'),
     ('cus03', 'HOME', '567-890-1234'),
-    ('cus03', 'MOBILE', '678-901-2345'),
     ('cus04', 'WORK', '789-012-3456'),
-    ('cus04', 'MOBILE', '890-123-4567'),
-    ('cus05', 'HOME', '901-234-5678'),
     ('cus05', 'MOBILE', '012-345-6789');

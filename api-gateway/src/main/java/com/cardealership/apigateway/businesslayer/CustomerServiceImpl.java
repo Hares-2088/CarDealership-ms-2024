@@ -2,6 +2,7 @@ package com.cardealership.apigateway.businesslayer;
 
 import com.cardealership.apigateway.domainclientlayer.customer.CustomerServiceClient;
 import com.cardealership.apigateway.mapper.customer.CustomerResponseMapper;
+import com.cardealership.apigateway.presentationlayer.customers.CustomerRequestModel;
 import com.cardealership.apigateway.presentationlayer.customers.CustomerResponseModel;
 import org.springframework.stereotype.Service;
 
@@ -28,5 +29,19 @@ public class CustomerServiceImpl implements CustomerService{
     @Override
     public CustomerResponseModel getCustomerByCustomerId(String customerId) {
         return customerResponseMapper.responseModelToResponseModel(customerServiceClient.getCustomerByCustomerId(customerId));
+    }
+
+    @Override
+    public CustomerResponseModel createCustomer(CustomerRequestModel customerRequestModel) {
+        return customerResponseMapper.responseModelToResponseModel(customerServiceClient.createCustomer(customerRequestModel));
+    }
+    @Override
+    public void updateCustomer(String customerId, CustomerRequestModel customerRequestModel) {
+        customerServiceClient.updateCustomer(customerId, customerRequestModel);
+    }
+
+    @Override
+    public void deleteCustomer(String customerId) {
+        customerServiceClient.deleteCustomer(customerId);
     }
 }

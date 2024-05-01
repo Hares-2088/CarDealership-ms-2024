@@ -1,5 +1,7 @@
 package com.cardealership.apigateway.domainclientlayer.customer;
 
+import com.cardealership.apigateway.mapper.customer.CustomerResponseMapperImpl;
+import com.cardealership.apigateway.presentationlayer.customers.CustomerRequestModel;
 import com.cardealership.apigateway.presentationlayer.customers.CustomerResponseModel;
 import com.cardealership.apigateway.utils.exceptions.HttpErrorInfo;
 import com.cardealership.apigateway.utils.exceptions.InvalidInputException;
@@ -27,18 +29,20 @@ public class CustomerServiceClient {
     private final ObjectMapper mapper;
 
     private final String CUSTOMER_SERVICE_BASE_URL;
+    private final CustomerResponseMapperImpl customerResponseMapperImpl;
 
     private CustomerServiceClient(RestTemplate restTemplate, ObjectMapper mapper,
                                   @Value("${app.customers-service.host}") String customerServiceHost,
-                                  @Value("${app.customers-service.port}") String customerServicePort) {
+                                  @Value("${app.customers-service.port}") String customerServicePort, CustomerResponseMapperImpl customerResponseMapperImpl) {
         this.restTemplate = restTemplate;
         this.mapper = mapper;
 
         CUSTOMER_SERVICE_BASE_URL = "http://" + customerServiceHost + ":" + customerServicePort + "/api/v1/customers";
+        this.customerResponseMapperImpl = customerResponseMapperImpl;
     }
 
     public List<CustomerResponseModel> getAllCustomers() {
-        try{
+        try {
 
             CustomerResponseModel[] customerResponseModels = restTemplate.getForObject(CUSTOMER_SERVICE_BASE_URL, CustomerResponseModel[].class);
 
@@ -46,19 +50,47 @@ public class CustomerServiceClient {
             return Arrays.asList(customerResponseModels);
 
         } catch (HttpClientErrorException ex) {
-            throw  handleHttpClientException(ex);
+            throw handleHttpClientException(ex);
         }
     }
 
     public CustomerResponseModel getCustomerByCustomerId(String customerId) {
-        try{
+        try {
             String url = CUSTOMER_SERVICE_BASE_URL + "/" + customerId;
 
             return restTemplate.getForObject(url, CustomerResponseModel.class);
+        } catch (HttpClientErrorException ex) {
+            throw handleHttpClientException(ex);
         }
+    }
 
-        catch (HttpClientErrorException ex) {
-            throw  handleHttpClientException(ex);
+    //post method
+    public CustomerResponseModel createCustomer(CustomerRequestModel customerRequestModel) {
+        try {
+            return restTemplate.postForObject(CUSTOMER_SERVICE_BASE_URL, customerRequestModel, CustomerResponseModel.class);
+        } catch (HttpClientErrorException ex) {
+            throw handleHttpClientException(ex);
+        }
+    }
+
+    //put method
+    public void updateCustomer(String customerId, CustomerRequestModel customerRequestModel) {
+        try {
+            String url = CUSTOMER_SERVICE_BASE_URL + "/" + customerId;
+            restTemplate.put(url, customerRequestModel);
+        } catch (HttpClientErrorException ex) {
+            throw handleHttpClientException(ex);
+        }
+    }
+
+
+    //delete method
+    public void deleteCustomer(String customerId) {
+        try {
+            String url = CUSTOMER_SERVICE_BASE_URL + "/" + customerId;
+            restTemplate.delete(url);
+        } catch (HttpClientErrorException ex) {
+            throw handleHttpClientException(ex);
         }
     }
 

@@ -15,7 +15,7 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class CustomerRequestModel extends RepresentationModel<CustomerRequestModel> {
+public class CustomerRequestModel{
 
     String firstName;
     String lastName;
@@ -26,5 +26,4 @@ public class CustomerRequestModel extends RepresentationModel<CustomerRequestMod
     String country;
     String postalCode;
     List<PhoneNumber> phoneNumbers;
-
 }
